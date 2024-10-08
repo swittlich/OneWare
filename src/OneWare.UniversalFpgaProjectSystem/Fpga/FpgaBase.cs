@@ -10,16 +10,19 @@ public abstract class FpgaBase : IFpga
 {
     protected readonly Dictionary<string, string> InternalProperties;
 
-    protected FpgaBase(string name, Dictionary<string, string>? properties = null)
+    protected FpgaBase(string name, Dictionary<string, string>? properties = null, List<HardwareConstraint>? hardwareConstraints = null)
     {
         Name = name;
         InternalProperties = properties ?? [];
         Properties = new ReadOnlyDictionary<string, string>(InternalProperties);
+        Constraints = hardwareConstraints ?? [];
     }
-
+    
+    
     public string Name { get; }
 
     public IList<HardwarePin> Pins { get; } = new List<HardwarePin>();
+    public IList<HardwareConstraint> Constraints { get; }
 
     public IList<HardwareInterface> Interfaces { get; } = new List<HardwareInterface>();
     
@@ -94,6 +97,20 @@ public abstract class FpgaBase : IFpga
 
                     InternalProperties.Add(settingName, settingValue);
                 }
+            
+            foreach (var constraints in properties["pinConstraints"]?.AsArray() ?? [])
+            {
+                if (constraints == null) continue;
+
+                var description = constraints["description"]?.ToString();
+                var name = constraints["name"]?.ToString();
+                
+                var values = (from node in constraints["values"]?.AsArray() select node.ToString()).ToList();
+
+                if (name == null) continue;
+
+                Constraints.Add(new HardwareConstraint(name, values, description));
+            }
         }
         catch (Exception e)
         {

@@ -5,6 +5,8 @@ public interface IFpga
     public string Name { get; }
 
     public IList<HardwarePin> Pins { get; }
+    
+    public IList<HardwareConstraint> Constraints { get; }
 
     public IList<HardwareInterface> Interfaces { get; }
 

@@ -2,6 +2,7 @@
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using DynamicData.Binding;
 using OneWare.Essentials.Controls;
 using OneWare.Essentials.Enums;
@@ -13,6 +14,7 @@ using OneWare.UniversalFpgaProjectSystem.Fpga;
 using OneWare.UniversalFpgaProjectSystem.Models;
 using OneWare.UniversalFpgaProjectSystem.Parser;
 using OneWare.UniversalFpgaProjectSystem.Services;
+using Prism.Ioc;
 
 namespace OneWare.UniversalFpgaProjectSystem.ViewModels;
 

@@ -34,6 +34,7 @@ public class HttpService : IHttpService
                 client.Timeout = timeout;
 
             await client.DownloadAsync(url, stream, progress, cancellationToken);
+            
             return true;
         }
         catch (Exception e)
@@ -79,6 +80,7 @@ public class HttpService : IHttpService
         }
         catch (Exception e)
         {
+            _logger.Error($"Error during fetching from content from {url}");
             _logger.Error(e.Message, e);
         }
 
@@ -173,6 +175,7 @@ public class HttpService : IHttpService
         }
         catch (Exception e)
         {
+            _logger.Error($"Error during fetching from content from {url}");
             if (e is not HttpRequestException)
                 _logger.Error(e.Message, e);
             else _logger.Log(e.Message, ConsoleColor.Yellow);

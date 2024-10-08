@@ -124,6 +124,28 @@
                                         <DataGridTextColumn Header="Pin" Width="*" Binding="{Binding Pin.Name}" />
                                         <DataGridTextColumn Header="Description" Width="*"
                                                             Binding="{Binding Pin.Description}" />
+                                        <DataGridTemplateColumn Header="Constraints" Width="*">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <DockPanel>
+                                                        <Button DockPanel.Dock="Right"
+                                                                CommandParameter="{Binding  }"
+                                                                Height="20" Width="20"
+                                                                ToolTip.Tip="Add Constraint">
+                                                            
+                                                            <Image Source="{DynamicResource MaterialDesign.Close}"
+                                                                   Height="10"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center" />
+                                                        </Button>
+                                                        <TextBlock DockPanel.Dock="Left"
+                                                                   VerticalAlignment="Center"
+                                                                   Padding="5 0"
+                                                                   Text="{Binding ConnectedNode.Node.Name, FallbackValue={}}" />
+                                                    </DockPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
                                         <DataGridTemplateColumn Header="Node" Width="*">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
@@ -147,6 +169,7 @@
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
+                                        
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </DockPanel>

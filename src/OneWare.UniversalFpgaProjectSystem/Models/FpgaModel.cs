@@ -17,12 +17,16 @@ public sealed class FpgaModel : ObservableObject, IHardwareModel
     private HardwarePinModel? _selectedPinModel;
 
     private ExtensionModel? _selectedExtensionModel;
+    
+    
 
     public FpgaModel(IFpga fpga)
     {
         Fpga = fpga;
 
         foreach (var pin in fpga.Pins) AddPin(pin);
+        
+        foreach (var constraint in fpga.Constraints) AddConstraint(constraint);
 
         foreach (var fpgaInterface in fpga.Interfaces) AddInterface(fpgaInterface);
 
@@ -55,6 +59,8 @@ public sealed class FpgaModel : ObservableObject, IHardwareModel
     public IFpga Fpga { get; }
     
     public Dictionary<string, HardwarePinModel> PinModels { get; } = new();
+    
+    public Dictionary<string, HardwareConstraintModel> HardwareConstraintModels { get; } = new();
     public ObservableCollection<HardwarePinModel> VisiblePinModels { get; } = new();
     public Dictionary<string, FpgaNodeModel> NodeModels { get; } = new();
     public ObservableCollection<FpgaNodeModel> VisibleNodeModels { get; } = new();
@@ -150,6 +156,11 @@ public sealed class FpgaModel : ObservableObject, IHardwareModel
         NodeConnected?.Invoke(this, EventArgs.Empty);
     }
 
+    public void Constraint(HardwarePinModel pin)
+    {
+        
+    }
+
     public void Disconnect(HardwarePinModel pin)
     {
         if (pin.ConnectedNode != null) pin.ConnectedNode.ConnectedPin = null;
@@ -205,7 +216,13 @@ public sealed class FpgaModel : ObservableObject, IHardwareModel
         PinModels.Add(pin.Name, model);
         VisiblePinModels.Add(model);
     }
-
+    
+    private void AddConstraint(HardwareConstraint constraint)
+    {
+        var model = new HardwareConstraintModel(constraint);
+        HardwareConstraintModels.Add(constraint.Name, model);
+    }
+    
     public void AddNode(FpgaNode node)
     {
         var model = new FpgaNodeModel(node);

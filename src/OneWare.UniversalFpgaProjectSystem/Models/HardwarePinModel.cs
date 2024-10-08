@@ -11,13 +11,25 @@ public class HardwarePinModel : ObservableObject
 
     private bool _isSelected;
 
+    private List<HardwareConstraintModel> _constraints;
+
     public HardwarePinModel(HardwarePin pin, FpgaModel fpgaModel)
     {
         Pin = pin;
         _toolTipText = "Click to connect " + Pin.Name;
         FpgaModel = fpgaModel;
+        _constraints = [];
+        foreach (var constraint in pin.Constraints)
+        {
+            _constraints.Add(new HardwareConstraintModel(constraint));
+        }
     }
 
+    public void AddConstraint(HardwareConstraintModel constraint)
+    {
+        _constraints.Add(constraint);
+    }
+    
     public HardwarePin Pin { get; }
     
     public FpgaModel FpgaModel { get; }
